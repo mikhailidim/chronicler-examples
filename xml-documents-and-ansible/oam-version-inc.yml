@@ -1,0 +1,38 @@
+---
+- hosts: localhost
+  vars:
+    # OAM Configuration file
+    oam_config_file: oam-config.xml
+    # XPath query to access version element  
+    oam_version_xpath: "/xsd:Configuration/xsd:Setting/xsd:Setting[@Name = 'Version']"
+    # OAM configuration namepspaces 
+    oam_namespaces: 
+        xsd: "http://www.w3.org/2001/XMLSchema"
+        htf: "http://higgins.eclipse.org/sts/Configuration"      
+  tasks:
+    # Query element text using XPath 
+    - name: Get current version
+      xml:
+       path: "{{ oam_config_file }}"
+       xpath: "{{ oam_version_xpath }}"
+       content: text
+       namespaces: "{{ oam_namespaces }}"
+      register: cver
+
+    # Update version property only if the result has 1 match  
+    - name: Set new version
+      block:    
+
+        - name: Calculate next version
+          set_fact:
+            new_version: "{{ cver.matches[0]['{http://www.w3.org/2001/XMLSchema}Setting']|default(0)|int + 1 }}"     
+
+        - name: Update configuration
+          xml:
+           path: "{{ oam_config_file }}"
+           xpath: "{{ oam_version_xpath }}"
+           value: "{{ new_version }}"
+           namespaces: "{{ oam_namespaces }}"
+      
+      when: cver.count == 1
+...

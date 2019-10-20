@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xsd:Configuration xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:htf="http://higgins.eclipse.org/sts/Configuration" xsd:schemaLocation="http://higgins.eclipse.org/sts/Configuration Configuration.xsd">
+  <SettingHandlers xmlns="http://higgins.eclipse.org/sts/Configuration">
+    <SettingHandler Type="htf:list" Class="java.util.List" Handler="org.eclipse.higgins.configuration.xml.ListHandler"/>
+    <SettingHandler Type="htf:class" Class="java.lang.Class" Handler="oracle.security.am.admin.config.handlers.ClassHandler"/>
+    <SettingHandler Type="htf:map" Class="java.util.Map" Handler="org.eclipse.higgins.configuration.xml.MapHandler"/>
+    <SettingHandler Type="htf:class1" Class="oracle.security.am.admin.config.model.ClassObject" Handler="oracle.security.am.admin.config.handlers.ClassHandler"/>
+    <SettingHandler Type="htf:method" Class="java.lang.reflect.Method" Handler="oracle.security.am.admin.config.handlers.MethodHandler"/>
+    <SettingHandler Type="xsd:string" Class="java.lang.String" Handler="org.eclipse.higgins.configuration.xml.StringHandler"/>
+    <SettingHandler Type="htf:method1" Class="oracle.security.am.admin.config.model.MethodObject" Handler="oracle.security.am.admin.config.handlers.MethodHandler"/>
+    <SettingHandler Type="xsd:anyURI" Class="java.net.URI" Handler="org.eclipse.higgins.configuration.xml.URIHandler"/>
+    <SettingHandler Type="htf:reference" Class="oracle.security.am.admin.config.model.ReferenceObject" Handler="org.eclipse.higgins.configuration.xml.ReferenceHandler"/>
+    <SettingHandler Type="xsd:long" Class="java.lang.Long" Handler="oracle.security.am.admin.config.handlers.LongHandler"/>
+    <SettingHandler Type="xsd:integer" Class="java.lang.Integer" Handler="org.eclipse.higgins.configuration.xml.IntegerHandler"/>
+    <SettingHandler Type="xsd:boolean" Class="java.lang.Boolean" Handler="org.eclipse.higgins.configuration.xml.BooleanHandler"/>
+    <SettingHandler Type="htf:timeInterval" Class="oracle.security.am.admin.config.model.TimeInterval" Handler="oracle.security.am.admin.config.handlers.TimeIntervalHandler"/>
+    <SettingHandler Type="htf:memorySize" Class="oracle.security.am.admin.config.model.MemorySize" Handler="oracle.security.am.admin.config.handlers.MemorySizeHandler"/>
+  </SettingHandlers>
+  <Setting Name="NGAMConfiguration" Type="htf:map">
+    <Setting Name="Version" Type="xsd:integer">110</Setting>
+    <Setting Name="NotificationLockWait" Type="xsd:integer">20000</Setting>
+    <Setting Name="ProductRelease" Type="xsd:string">12.2.1.3.0</Setting>
+    <Setting Name="DistributorMode" Type="xsd:string">MapStore</Setting>
+    <Setting Name="FilePollingInterval" Type="xsd:integer">30000</Setting>
+    <Setting Name="Distributor" Type="xsd:string">MapDistributor</Setting>
+    <Setting Name="DistributorContext" Type="xsd:string">DistributorContext</Setting>
+    <Setting Name="BundlePatch" Type="xsd:string">12.2.2.0.0</Setting>
+  </Setting>
+</xsd:Configuration>
