@@ -2,7 +2,7 @@
 set +x
 # Set parameters
 hst=$1
-prt=${1:-443}
+prt=${2:-443}
 
 # Extract Certificate Text
 
