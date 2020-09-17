@@ -10,6 +10,6 @@ Ways to call:
 Script accept parameters: 
  - __hostname__             Host or IP addres to where you want to read certificate 
  - __port__                 Port to connect to host. Options, Default value is 443.
- - __ s_client arguments__  any arguemts that openssl s_client will accept, for example _-servername abc.de.com_.
+ - __s_client arguments__  any arguemts that openssl s_client will accept, for example _-servername abc.de.com_.
    
 
