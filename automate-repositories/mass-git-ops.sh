@@ -29,7 +29,7 @@ case $ops in
     ;;
   checkout)
     for rl in ${ROLES[@]}; do
-      echo -e "Push for ${rl}\n=========================================\n"
+      echo -e "\n\nCheckout  ${rl}\n=========================================\n"
       cd $ROLES_BASE/$rl
       git $ops $brnch
       git pull origin $brnch
@@ -37,21 +37,21 @@ case $ops in
     ;;
   pull)
     for rl in ${ROLES[@]}; do
-      echo -e "Push for ${rl}\n=========================================\n"
+      echo -e "\n\nPull  ${rl}\n=========================================\n"
       cd $ROLES_BASE/$rl
       git pull origin $brnch
     done
     ;;
   push)
    for rl in ${ROLES[@]}; do
-      echo -e "Push for ${rl}\n=========================================\n"
+      echo -e "\n\nPush  ${rl}\n=========================================\n"
       cd $ROLES_BASE/$rl
       git $ops origin $brnch
     done
     ;;
   status)
    for rl in ${ROLES[@]}; do
-      echo -e "Status for ${rl}\n=========================================\n"
+      echo -e "\n\nStatus of ${rl}\n=========================================\n"
       cd $ROLES_BASE/$rl
       git $ops
     done
