@@ -8,11 +8,6 @@
     cc_emails: 
        - me@mydomain.com
   tasks:     
-    - name: Generate email body
-      template:
-        src: "templates/mail_body.html.j2"
-        dest: "mail_body.html"
-        
     - name: Build List of Attachments 
       find: 
         paths: "/tmp/mfiles/"
@@ -27,23 +22,23 @@
         format: zip 
         path: "/tmp/mfiles/*.pdf"
         dest: "/tmp/mfiles/mail-report-{{ansible_date_time.date }}.zip"
-        
+      when: rfs.matched >0
+       
     - name: Get requests archive details
       stat:
         path: "/tmp/mfiles/mail-report-{{ ansible_date_time.date }}.zip"
-        register: req_zip
+      register: req_zip
       
     - name: Send Email to create request
       mail:
         host: smtp.mydomain.com
         subject: " HTML-fromatted Report Example"
-        body: "{{ lookup('file','./mail_body.html') }}"
+        body: "{{ lookup('template','templates/mail_body.html.j2') }}"
         from: "Ansible Host <ansible@mydomain.com>"
         to: "{{ to_emails }}"
         cc: "{{ cc_emails }}"
-        attach: "{{ req_zip.stat.path }}"
+        attach: "{{ req_zip.stat.path|default([]) }}"
         headers: 'Reply-To=Do.Not.Reply@mydomain.com'
         subtype: html
         charset: utf8
-      when: rfs.matched > 0  
 ...
