@@ -1,0 +1,49 @@
+---
+- name: Create HTML Email 
+  hosts: localhost
+  vars:
+    to_emails: 
+       - mgmt-grp@mydomain.com
+       - my-mgr@mydomain.com
+    cc_emails: 
+       - me@mydomain.com
+  tasks:     
+    - name: Generate email body
+      template:
+        src: "templates/mail_body.html.j2"
+        dest: "mail_body.html"
+        
+    - name: Build List of Attachments 
+      find: 
+        paths: "/tmp/mfiles/"
+        patterns: "*.pdf"
+      register: rfs
+      
+    - set_fact:
+        zip_files: "{{ rfs | json_query('files[*].path') }}"
+        
+    - name: Prepare Attachment Archive
+      archive:     
+        format: zip 
+        path: "/tmp/mfiles/*.pdf"
+        dest: "/tmp/mfiles/mail-report-{{ansible_date_time.date }}.zip"
+        
+    - name: Get requests archive details
+      stat:
+      path: "/tmp/mfiles/mail-report-{{ ansible_date_time.date }}.zip"
+      register: req_zip
+      
+    - name: Send Email to create request
+      mail:
+        host: smtp.mydomain.com
+        subject: " HTML-fromatted Report Example"
+        body: "{{ lookup('file','./mail_body.html') }}"
+        from: "Ansible Host <ansible@mydomain.com>"
+        to: "{{ to_emails }}"
+        cc: "{{ cc_emails }}"
+        attach: "{{ req_zip.stat.path }}"
+        headers: 'Reply-To=Do.Not.Reply@mydomain.com'
+        subtype: html
+        charset: utf8
+      when: rfs.matched > 0  
+...
