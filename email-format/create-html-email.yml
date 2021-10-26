@@ -30,8 +30,8 @@
         
     - name: Get requests archive details
       stat:
-      path: "/tmp/mfiles/mail-report-{{ ansible_date_time.date }}.zip"
-      register: req_zip
+        path: "/tmp/mfiles/mail-report-{{ ansible_date_time.date }}.zip"
+        register: req_zip
       
     - name: Send Email to create request
       mail:
