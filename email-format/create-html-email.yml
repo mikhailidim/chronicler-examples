@@ -29,7 +29,7 @@
         path: "/tmp/mfiles/mail-report-{{ ansible_date_time.date }}.zip"
       register: req_zip
       
-    - name: Send Email to create request
+    - name: Send Email Report to Users
       mail:
         host: smtp.mydomain.com
         subject: " HTML-fromatted Report Example"
