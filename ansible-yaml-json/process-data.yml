@@ -1,0 +1,51 @@
+---
+- name: Process OS Output Play
+  hosts: localhost
+  vars: 
+    patch_list: []
+  tasks:
+    - name: Receive External Data
+      tags:
+       - always
+      shell: 
+        cmd: |
+         ./shell-output.sh
+      register:  os_output
+    - name:  Raw Output Lines
+      debug:
+        verbosity: 2 
+        var: os_output.stdout_lines
+    - name: Transformation v1
+      tags:
+        - v1
+      set_fact: 
+       patch_list: |-
+          [
+          {%- for line in os_output.stdout_lines -%}
+            { "id": "{{ line.split(';')[0] }}","title":"{{ line.split(';')[1] }}" }{{ ", " if not loop.last else "" }}
+          {%- endfor -%}
+          ]
+    - name: Result For V1
+      tags: 
+        - v1
+      debug:
+        var: patch_list
+
+    - name: Transformation V2
+      tags:
+        - v2
+      set_fact: 
+        patch_list: >-
+           {%- set olines = [] -%}      
+           {%- for line in os_output.stdout_lines -%}
+           {{ olines.append({"id": line.split(';')[0],"title":line.split(';')[1]}) }}  
+           {%- endfor -%}   
+           {{  olines }}
+
+    - name: Result For V2
+      tags:
+       - v2
+      debug:
+        var: patch_list        
+...        
+
