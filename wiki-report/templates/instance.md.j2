@@ -1,0 +1,20 @@
+# OCI Instance Metadata 
+
+
+Inventory Name: **{{ inventory_hostname }}**
+
+Host Name: **{{ inst_meta.json.hostname }}**
+
+Display Name: **{{ inst_meta.json.displayName }}**
+
+Instnace Region:  **{{ inst_meta.json.canonicalRegionName }}**
+
+Instance Shape: **{{ inst_meta.json.shape }}**
+
+Instance Configuration
+
+ Property | Value 
+----------|-------|
+{% for key,val in inst_meta.json.shapeConfig.items() %}
+ {{ key }}| **{{ val }}** |
+{% endfor %}
