@@ -1,0 +1,62 @@
+---
+- name: Report Compute instance details
+  hosts: all 
+  vars:
+   report_repo: "git@github.com:mikhailidim/ansible-wiki-demo.wiki.git"
+   local_report: "/tmp/local-report"
+  tasks:
+    - name: Get the Latest Repo
+      delegate_to: localhost
+      run_once: yes 
+      git: 
+       repo: "{{ report_repo }}"
+       dest: "{{ local_report }}"
+       clone: yes 
+       force: yes
+
+    - name: Generate New Wiki Home Page
+      delegate_to: localhost
+      run_once: yes
+      template: 
+       src: "templates/Home.md.j2"
+       dest: "{{ local_report }}/Home.md" 
+
+    - name: Collect Target Metadata
+      uri:
+       url: http://169.254.169.254/opc/v1/instance/
+       return_content: yes
+       headers:
+         Authorization: "Bearer Oracle"    
+      register: inst_meta
+    - name: Print Response
+      debug:
+        var: inst_meta.json
+        verbosity: 2 
+    - name: Generate Instance report
+      template: 
+        src: "templates/instance.md.j2"
+        dest: "~/{{ inventory_hostname }}.md"
+
+    - name: Collect Instance Reports
+      delegate_to: localhost
+      fetch: 
+        src: "~/{{ inventory_hostname }}.md"
+        dest: "{{ local_report }}/{{ inventory_hostname }}.md"
+        flat: yes
+
+    - name: Publish New Reports 
+      delegate_to: localhost
+      run_once: yes
+      shell: 
+        cmd: |
+         cd  "{{ local_report }}"
+         git add .
+         git commit -m "Reported at {{ ansible_date_time.iso8601 }}"
+         git push origin master
+
+    - name: Cleanp Local Repo
+      delegate_to: localhost
+      run_once: yes
+      file: 
+       path: "{{ local_report }}"
+       state: absent
