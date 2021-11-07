@@ -57,8 +57,6 @@
     - name: Cleanp Local Repo
       delegate_to: localhost
       run_once: yes
-      tags:
-       - never        
       file: 
        path: "{{ local_report }}"
        state: absent
