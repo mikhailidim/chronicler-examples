@@ -47,9 +47,9 @@
     - name: Publish New Reports 
       delegate_to: localhost
       run_once: yes
-      shell: 
+      shell:
+        chdir: "{{ local_report }}"       
         cmd: |
-         cd  "{{ local_report }}"
          git add .
          git commit -m "Reported at {{ ansible_date_time.iso8601 }}"
          git push origin master
