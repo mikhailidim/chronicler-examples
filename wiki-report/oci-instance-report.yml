@@ -2,8 +2,8 @@
 - name: Report Compute instance details
   hosts: all 
   vars:
-   report_repo: "git@github.com:mikhailidim/ansible-wiki-demo.git"
-   local_report: "./local-report"
+   report_repo: "git@github.com:mikhailidim/ansible-wiki-demo.wiki.git"
+   local_report: "/tmp/local-report"
   tasks:
     - name: Get the Latest Repo
       delegate_to: localhost
@@ -57,6 +57,8 @@
     - name: Cleanp Local Repo
       delegate_to: localhost
       run_once: yes
+      tags:
+       - never        
       file: 
        path: "{{ local_report }}"
        state: absent

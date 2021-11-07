@@ -1,8 +1,14 @@
 # Sample Wiki Reports
 
-This repository is an example for blog post [Ansible Simple Reports](https://chronicler.tech/ansible-simple-reports)
+Last Updated: **{{ ansible_date_time.iso8601 }}**	
 
-Metadata for OCI instances:
+<div algin="center">
+ [[/img/ansible-red.png|Red Ansible Logo]]
+</div>
+This repository is an example of a blog post <a href="https://chronicler.tech/ansible-simple-reports">Ansible Simple Reports</a>
+
+## Metadata for OCI instances:
+
 {% for hst in play_hosts %}
 * [{{ hst}}](./{{ hst }})
 {% endfor %}
