@@ -12,5 +12,5 @@ The sample code and report collects instance metadata from [Oracle Cloud Infrast
 5. Update variavble report_repo [oci-instance-report.yml](/wiki-report/oci-instance-report.yml#L5) with your repository URL. 
 6. Run playbook with command 
 
-    ```ansible -i hosts.yml oci-instance-report.yml``` 
+    ```ansible-playbook -i hosts.yml oci-instance-report.yml``` 
 7. You can use direct URL to access your Reports. For my sample report it's https://github.com/mikhailidim/ansible-wiki-demo/wiki 
