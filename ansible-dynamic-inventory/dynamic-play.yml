@@ -1,0 +1,11 @@
+---
+- hosts: static_group
+  tasks:
+    - debug: 
+        msg: "Manage Active Firewalls"        
+        
+- hosts: dynamic_group
+  tasks:
+    - debug: 
+        msg: "Watch Standby Firewalls"        
+...
