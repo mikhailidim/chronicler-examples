@@ -9,13 +9,13 @@ This is a sample document to produce well-structured pdf documents.
 
 Content on page 1 
 
-### Sub section page1
+### Sub Section Page 1
 
-more content
+More content
 
-#### sub-sub section page1
+#### Sub-sub Section Page 1
 
-some more content
+Some more content
 
 ---
 
@@ -23,15 +23,15 @@ some more content
 
 Test page 2. 
 
-Content on page 1
+Content on page 2
 
-## Sub section Page 2
+## Sub Ssection Page 2
 
-more content
+And More Content
 
-### sub-sub section Page 2
+### Sub-sub Section Page 2
 
-some more content
+the final part is here. 
 
 ---
 
