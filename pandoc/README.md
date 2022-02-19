@@ -11,31 +11,38 @@ Folder content:
 * [pages-out-document.pdf](./pages-out-document.pdf)  - Conversion result for Commin Markdown source - Page breaks. 
 * [toc-out-document.pdf](./toc-out-document.pdf)  - Same as previous + table of content. 
 * [all-out-document.pdf](./all-out-document.pdf)  - Combines multiple Markdown sources into single document. 
-
+* [headers.txt](./headers.txt)  - Adds page preaks, to all top level headers. 
 
 
 ## Convert Markdown to PDF
 There are numerous options, filters and engines that allow you to produce pixel-perfect documents. 
 Basic Markdwn to PDF conversion commands are
 
-* Convert document using gitHub flawored markdown. Result  parsing and LaTeX instructons support (page preaks in PDF)
+* Convert document using gitHub flawored markdown. Source format - GitHub Markdown, no page breaks.
 
   ```bash
-   $ pandoc --from=gfm+smart \
-   --output gitmd-my-documents.pdf print-my-document.md
+   pandoc --from=gfm+smart \
+   --output gitmd-out-document.pdf print-my-document.md
   ```
-* Convert with the Common Markdown source. recognizes LaTex instructions
+* Convert with the Common Markdown source. Use LaTex instructions to inject page breaks.
 
   ```bash
-   $ pandoc --from=markdown+smart \
-   --output pages-my-documents.pdf print-my-document.md
+   pandoc --from=markdown+smart --include-in-header headers.txt\
+   --output pages-out-document.pdf print-my-document.md
   ```
 
-* Produces a single PDF from multiple sources 
+* Convert GitHub Markdown sourcewith page breaks and a table of contnet.
 
   ```bash
-   $ pandoc --from=markdown+smart \
-   --output print-my-documents.pdf *.md
+   pandoc --from=gfm+smart -H headers.txt --toc\
+   --output toc-out-document.pdf print-my-document.md
+  ```
+
+* Convert multiple Markdown documents into a single  PDF. 
+
+  ```bash
+   pandoc --from=gfm+smart -H headers.txt --toc \
+   --output all-out-document.pdf *.md
   ```
    
 ## Installation on Ubuntu
