@@ -18,9 +18,9 @@ some more content
 
 ---
 
-<!--
+<none>
 \newpage
--->
+</none>
 
 # New Page Start
 
