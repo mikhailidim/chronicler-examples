@@ -18,7 +18,7 @@ some more content
 
 ---
 
-<div style="page-break-before:always;">
+<div style="page-break-before:always;display: none;">
 \newpage
 </div>
 
