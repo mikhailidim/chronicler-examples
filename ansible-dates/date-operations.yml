@@ -1,0 +1,14 @@
+---
+- name: Ansible Date Operations
+  hosts: all
+  tasks:
+    - name: Get Days from Today
+      set_fact:
+        lifecount: "{{ (some_date |to_datetime - today|to_datetime).days }}"
+      vars:
+        today: "{{ ansible_date_time.date | to_datetime('%Y-%m-%d') }}"
+        some_date: "{{ '12/15/22' | to_datetime('%m/%d/%y') }}"
+        
+    - name: Show Facts
+      debug: 
+        msg: "You have  {{ lifecount }} days left."
