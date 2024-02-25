@@ -18,13 +18,23 @@ def loadCiphers(fName: str = CIPHERS_FILE) -> list:
     it returns an available list of names (OpenSSL only).
     """
     try:
-        with open('ciphers.csv') as csvfile:
+        with open(CIPHERS_FILE) as csvfile:
             creader = csv.reader(csvfile)
-            cipher_names = [ tuple(row) for row in creader ]
-    except:    
-        cipher_names = [('',item['name']) for item in context.get_ciphers()]
+            # Read cipher pairs into list of tuples. 
+            # Skipping comments and empty lines. 
+            cipher_names = [ tuple(row) for row in creader if len(row) > 0 and not row[0].startswith('#')]
+            
+    except Exception as e:
+        print("WARNING: Use available list of ciphers. Failed to read cipher pairs. {cfile} due to {ex} "
+            .format(cfile=CIPHERS_FILE,ex=e))    
+        
+        # Intialize with a client ciphers
+        # Exclude TLSv1.3 protocol due to SSLSocket implementation specifics.  
+        cipher_names = [('',item['name']) for item in context.get_ciphers() if 'TLSv1.3' not in item['protocol']]
+        
     return cipher_names    
 
+# Initialize remote address with the default value 
 remote_addr = ('www.python.org',443)
 
 def initParams(args: list): 
@@ -33,8 +43,10 @@ def initParams(args: list):
     addr = (args[1].split(':')[0],int(args[1].split(':')[1]))
     if len(args) >2: 
         ciphers = args[2].split(':')
-    else: 
-        ciphers = [ item['name'] for item in context.get_ciphers()]
+    else:
+        # Initialize the test list with default names
+        # from client. Exclude TLSv1.3 suites  
+        ciphers = [ item['name'] for item in context.get_ciphers() if 'TLSv1.3' not in item['protocol']]
     return addr,ciphers
     
 # PROTOCOL_TLS_CLIENT requires valid cert chain and hostname
