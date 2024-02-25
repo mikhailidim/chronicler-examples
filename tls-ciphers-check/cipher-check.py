@@ -2,21 +2,11 @@
 import sys, csv
 import socket, ssl
 CIPHERS_FILE='ciphers.csv'
+
 #Initialize default Security Context
 context = ssl.create_default_context()
 
 def loadCiphers(fName: str = CIPHERS_FILE) -> list:
-    """
-    The function `loadCiphers` reads cipher names from a CSV file or retrieves them from the default
-    security context if the file is not found.
-    
-    :param fName: The `fName` parameter in the `loadCiphers` function is a string that represents the
-    file name from which ciphers are loaded. By default, it is set to `CIPHERS_FILE`
-    :type fName: str
-    :return: A list of cipher names is being returned. If the 'ciphers.csv' file is successfully opened
-    and read, function returns, the list of tuples with standard and OpenSSL cipher suite names. If file is missed or damaged 
-    it returns an available list of names (OpenSSL only).
-    """
     try:
         with open(CIPHERS_FILE) as csvfile:
             creader = csv.reader(csvfile)
@@ -37,6 +27,7 @@ def loadCiphers(fName: str = CIPHERS_FILE) -> list:
 # Initialize remote address with the default value 
 remote_addr = ('www.python.org',443)
 
+#Process Parameters
 def initParams(args: list): 
     if len(args) <2:
         raise RuntimeError("Not enough arguments.")
@@ -76,4 +67,3 @@ def main() -> int:
 
 if  __name__ == '__main__': 
     sys.exit(main())
-
