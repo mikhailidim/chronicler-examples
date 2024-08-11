@@ -1,4 +1,4 @@
-# chromicler-examples
+# chronicler-examples
 Sample code for the https://chronicler.tech site
 
 * [Ansible Date Time operations](./ansible-dates)
@@ -10,3 +10,5 @@ Sample code for the https://chronicler.tech site
 * [Sample Dynamic Ansible Inventory](./ansible-dynamic-inventory)
 * [YAML and JSON in Ansible](./ansible-yaml-json)
 * [Work with XML in Ansible](./xml-documents-and-ansible)
+* [Validate TLS Ciphers](./tls-ciphers-check)
+* [OpenAI Platform Custom](./gpt4-node-snippet)
