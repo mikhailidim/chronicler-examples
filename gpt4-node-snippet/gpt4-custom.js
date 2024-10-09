@@ -22,69 +22,38 @@ module.exports = function(){
                 "description":"Enter first name",// description of field
                 "minLength": 1 // define as required
             },
-            "gpt_message": {
-                "title": "Input Message",// displayed as field label  
-                "type": "object",
+            "model": {
+                "title": "Model",
+                "type": "string",
+                "format":  "string",
+                "default": "gpt-4o-mini",
                 "description":"Name of the mode you want to call. the list of models" +
                             " is here https://platform.openai.com/docs/models",// description of field                           
                 "minLength": 1, // define as required
-                "properties": {
-                    "model": {
-                        "title": "Model ID",
-                        "type": "string",
-                        "format":  "string"
-                    },
-                    "n": {
-                        "title": "Responses",
-                        "type": "integer",
-                        "format": "integer",
-                        "default": 1
-                    },  
-                    "temperature": {
-                        "title": "Temperature",
-                        "type" : "number",
-                        "format": "number" 
-                    },    
-                    "max_tokens": {
-                        "title": "Max Tokens",
-                        "type": "number",
-                        "format": "integer",
-                        "default": 180    
-                    },
-
-                    // TO-DO - Additional Model Parameters
-                     // top_p: { "number"}                                       
-                    // stream: {false}
-                    // logprobs
-                    // stop
-                    // presence_penalty
-                    // frequency_penalty
-                    // best_of
-                    // logit_bias
-                    // user
-                    
-                    "messages": {
-                        "title":"Messages",
-                        "type" :"array",
-                        "minlength": 1,
-                        "items": {
-                            "title": "Message",
-                            "type": "object",
-                            "properties": {
-                                "role": {
-                                    "title": "Role",
-                                    "type" : "string",
-                                    "format": "string"
-                                },
-                                "content": {
-                                    "title": "Content",
-                                    "type": "string",
-                                    "format": "textarea"
-                                }
-                            }    
-                        }
-                    }
-                }
+            },
+            "n": {
+                "title": "Responses",
+                "type": "integer",
+                "format": "integer",
+                "default": 1
+            },  
+            "temperature": {
+                "title": "Temperature",
+                "type" : "number",
+                "format": "number",
+                "default": 0.4 
+            },
+            "max_tokens": {
+                "title": "Max Tokens",
+                "type": "number",
+                "format": "integer",
+                "default": 180    
+            },
+            "gpt_message": {
+                "title": "Input Message",// displayed as field label  
+                "type": "string",
+                "format": "textarea",
+                "description": "Model Specific message in JSON format. Overlapped properties in the message body would be overwritten by Action properties",
             }
         }
     }; 
@@ -180,6 +149,12 @@ this.output = {
 
 
     this.execute = function(input,output){
+    // Merge message and parameters
+        var requestData = JSON.parse(input.gpt_message);
+        requestData["model"] = input.model;
+        if (input.n)  requestData["n"] = input.n;
+        if (input.temperature) requestData["temperature"] = input.temperature;
+        if (input.max_tokens) requestData["max_tokens"] = input.max_tokens;
 
     // Options for the HTTPS request
         const options = {
@@ -190,7 +165,7 @@ this.output = {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${input.gpt_key}`,
-                'Content-Length': Buffer.from(JSON.stringify(input.gpt_message)).length
+                'Content-Length': Buffer.from(JSON.stringify(requestData)).length
             }
         };
 
@@ -198,8 +173,7 @@ this.output = {
         const req = https.request(options, (res) => {
             let responseData = '';
             res.on('data', (chunk) => {
-                console.dir(chunk);
-                responseData += JSON.stringify(chunk);
+                responseData += chunk;
             });
 
             res.on('end', () => {
@@ -218,7 +192,7 @@ this.output = {
         });
 
         // Write the data to the request body
-        req.write(input.gpt_message);
+        req.write(JSON.stringify(requestData));
 
         // End the request
         req.end();
