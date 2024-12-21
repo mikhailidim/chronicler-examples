@@ -1,0 +1,27 @@
+{
+"data":{
+"id": "cmpl-A7k2WcjIsPaUGgKe0BELEyB3JodNz",
+"object": "text_completion",
+"created":1726408636,
+"model": "gpt-3.5-turbo-instruct",
+"choices":[
+{
+"text": "    📢 New post alert! Join Michael Mikhailidi as he dives into the world of #CloudIntegration and explores its potential for enhancing business efficiency and connectivity. Read more on the CHRONICLER blog 👀 #blogpost #technology #integration #entrepreneur  https://chronicler.tech/blog-social-repost/",
+"index":0,
+"logprobs":"NULL",
+"finish_reason": "stop",
+},
+{
+"text": "```"🚀 Introducing the latest blog post from Michael Mikhailidi, all about Cloud Integration 👨‍💻 Check it out now at https://chronicler.tech/blog-social-repost/ #Cloud #Integration #TechTalks"",
+"index":1,
+"logprobs":"NULL",
+"finish_reason": "stop",
+}
+],
+"usage":{
+"prompt_tokens":89,
+"completion_tokens":117,
+"total_tokens":206
+}
+}
+}

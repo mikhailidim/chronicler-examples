@@ -18,7 +18,7 @@ def loadCiphers(fName: str = CIPHERS_FILE) -> list:
         print("WARNING: Use available list of ciphers. Failed to read cipher pairs. {cfile} due to {ex} "
             .format(cfile=CIPHERS_FILE,ex=e))    
         
-        # Intialize with a client ciphers
+        # Initialize with a client ciphers
         # Exclude TLSv1.3 protocol due to SSLSocket implementation specifics.  
         cipher_names = [('',item['name']) for item in context.get_ciphers() if 'TLSv1.3' not in item['protocol']]
         
@@ -50,10 +50,10 @@ def main() -> int:
             # Find cipher in a list
             ctpl = [item for item in cp_list if cp in item][0]
             # Set Context to OpenSSL cipher
-            context.set_ciphers(ctpl[1])
-            ssl_sock = context.wrap_socket(
-                socket.socket(socket.AF_INET,socket.SOCK_STREAM),server_hostname=remote_addr[0])
             try:
+                context.set_ciphers(ctpl[1])
+                ssl_sock = context.wrap_socket(
+                socket.socket(socket.AF_INET,socket.SOCK_STREAM),server_hostname=remote_addr[0])
                 ssl_sock.connect(remote_addr)
                 print("*\tSuccess with cipher {tc} ({oc})".format(tc=ctpl[0],oc=ctpl[1]))
             except ssl.SSLError:
