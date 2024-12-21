@@ -1,0 +1,17 @@
+---
+ - name: Log Content Control
+   hosts: localhost
+   no_log: no
+   vars:
+     nologs: "{{ (2 >= ansible_verbosity or tower_user_id is defined )|bool }}" 
+   tasks:
+     
+     - debug:
+         msg: "I'm visible at level {{ ansible_verbosity }} and logs are {{ 'hidden' if nologs else 'visible' }}."
+         verbosity: 2 
+       no_log: "{{ nologs }}"  
+     - shell:
+         cmd: |
+           echo "Expose sensitive details"    
+       no_log: "{{ nologs }}"
+...
