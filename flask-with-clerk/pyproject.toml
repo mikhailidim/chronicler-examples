@@ -1,0 +1,13 @@
+[project]
+name = "flask-with-clerk"
+version = "0.1.0"
+description = "Integrate the external authentication into the Flask application"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "clerk-backend-api>=4.0.0",
+    "flask>=3.1.2",
+    "flask-session>=0.8.0",
+    "load-dotenv>=0.1.0",
+    "pyjwt>=2.10.1",
+]

@@ -4,3 +4,16 @@
 *.log
 *.tmp
 target/**
+.DS_Store
+.idea/**
+*.iml
+out/**
+build/**
+dist/**
+node_modules/**
+.env
+.env.local
+.env.*.local
+coverage/**
+*.swp
+*session*/

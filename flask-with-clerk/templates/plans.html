@@ -1,0 +1,70 @@
+{% include 'header.html' %}
+
+{% block content %}
+<div class="plans-section">
+    <h1>Choose Your Plan</h1>
+    <p class="subtitle">Select the perfect plan for your needs</p>
+
+    <div class="plans-grid">
+        <div class="plan-card">
+            <div class="plan-header">
+                <h3>Free</h3>
+                <div class="plan-price">
+                    <span class="currency">$</span>
+                    <span class="amount">0</span>
+                    <span class="period">/month</span>
+                </div>
+            </div>
+            <ul class="plan-features">
+                <li>Basic authentication</li>
+                <li>Up to 100 users</li>
+                <li>Email support</li>
+                <li>Standard security</li>
+            </ul>
+            <button class="btn btn-outline">Get Started</button>
+        </div>
+
+        <div class="plan-card featured">
+            <div class="plan-badge">Most Popular</div>
+            <div class="plan-header">
+                <h3>Pro</h3>
+                <div class="plan-price">
+                    <span class="currency">$</span>
+                    <span class="amount">29</span>
+                    <span class="period">/month</span>
+                </div>
+            </div>
+            <ul class="plan-features">
+                <li>Advanced authentication</li>
+                <li>Up to 1,000 users</li>
+                <li>Priority support</li>
+                <li>Enhanced security</li>
+                <li>Custom branding</li>
+            </ul>
+            <button class="btn btn-primary">Get Started</button>
+        </div>
+
+        <div class="plan-card">
+            <div class="plan-header">
+                <h3>Enterprise</h3>
+                <div class="plan-price">
+                    <span class="currency">$</span>
+                    <span class="amount">99</span>
+                    <span class="period">/month</span>
+                </div>
+            </div>
+            <ul class="plan-features">
+                <li>Full authentication suite</li>
+                <li>Unlimited users</li>
+                <li>24/7 dedicated support</li>
+                <li>Enterprise security</li>
+                <li>Custom integrations</li>
+                <li>SLA guarantee</li>
+            </ul>
+            <button class="btn btn-outline">Contact Sales</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% include 'footer.html' %}

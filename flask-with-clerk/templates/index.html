@@ -1,0 +1,46 @@
+{% include 'header.html' %}
+
+{% block content %}
+<div class="hero-section">
+    {% if is_authenticated %}
+    <h1> Hello {{ clerk_state.payload.sub }}</h1>
+    <p class="subtitle">Integrate external authentication into your Flask application</p>
+    <div class="hero-actions">
+        <button class="btn btn-primary">Get Started</button>
+        <button class="btn btn-secondary">Learn More</button>
+    </div>
+    {% else %}
+    <h1>Welcome to Flask with Clerk</h1>
+    <p class="subtitle">Please sign in to access personalized features</p>
+    <div class="hero-actions">
+        <button class="btn btn-primary" onclick="Clerk.openSignIn()">Sign In</button>
+    </div>
+    {% endif %}
+</div>
+
+<div class="features-section">
+    <h2>Features</h2>
+    <div class="features-grid">
+        <div class="feature-card">
+            {% if is_authenticated %}
+            <h3>Welcome  {{ clerk_state.payload.sub }}</h3>
+            <p> This is personalized greeting for authenticated users only</p>
+            {% else %}
+            <h3>Welcome to the Clerk-powered Application</h3>
+            <p> This is a public greeting message. Use the login button for Sign-In</p>
+            {% endif %}
+        </div>
+        <div class="feature-card">
+            <h3>Easy Integration</h3>
+            <p>Seamlessly integrate with your Flask application</p>
+        </div>
+        <div class="feature-card">
+            <h3>User Management</h3>
+            <p>Complete user profile and session management</p>
+            <p>{{ clerk_state }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% include 'footer.html' %}
