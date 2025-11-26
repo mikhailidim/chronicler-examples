@@ -18,14 +18,14 @@
         loginDiv.style.display = 'block';
 
             // Mount user profile on the profile page
-        const profileDiv = document.getElementById('profile')
+        const profileDiv = document.getElementById('user-profile')
           // Display the mount results to avoid flash of unstyled content
         if (Clerk.user && profileDiv) {
                 Clerk.mountUserProfile(profileDiv)
             }
         
         // Mount pricing table on the  plans page
-        const pricingTableDiv = document.getElementById('subscription-plans')
+        const pricingTableDiv = document.getElementById('user-plans')
         if (pricingTableDiv) {
             Clerk.mountPricingTable(pricingTableDiv)
         }

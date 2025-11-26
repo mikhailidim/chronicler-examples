@@ -158,6 +158,7 @@ header {
 /* Plans Section */
 .plans-section {
     padding: 2rem 0;
+    margin: 2rem;
 }
 
 .plans-section h1 {
@@ -282,6 +283,7 @@ header {
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: 2rem;
+    margin: 2rem;
 }
 
 .profile-card,

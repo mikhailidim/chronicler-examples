@@ -8,7 +8,7 @@ import logging
 import jwt
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
 load_dotenv()
 
@@ -24,6 +24,19 @@ origins = ['http://127.0.0.1:5001',
 clerk_client = Clerk(bearer_auth=os.getenv('CLERK_SECRET_KEY'),
             debug_logger=logging.getLogger("clerk:api"))
 
+def get_user_subscription(userid):
+    """
+    Retrieves the billing subscription information for a specific user from Clerk.
+    Fetches the user's subscription details and formats them into a dictionary.
+    Returns subscription data including user ID, plan status, and plan name if available.
+    Returns None if the user has no active subscription.
+    """
+    res = clerk_client.users.get_billing_subscription(user_id=userid)
+    if res is not None:
+        logging.debug(f" User {userid} subscribed to {res}")
+        return  {"sub": userid, "plan_status": res.status.value,"plan": res.subscription_items[0].plan.name}
+    else:
+        return None
 
 def check_clerk_handshake(request):
     """
@@ -60,21 +73,24 @@ def request_clerk_state():
     Authenticates the request using the Clerk API and stores the authentication state in the session.
     Handles authentication errors gracefully by logging them without blocking the request.
     """
-    clerk_cookies = check_clerk_handshake(request)
-    logging.debug(f"Clerk cookies from handshake: {clerk_cookies}")
-    if clerk_cookies:
-        request.environ['HTTP_COOKIE'] = '; '.join(clerk_cookies)
+    _clerk_cookies = check_clerk_handshake(request)
+    logging.debug(f"Clerk cookies from handshake: {_clerk_cookies}")
+    if _clerk_cookies:
+        request.environ['HTTP_COOKIE'] = '; '.join(_clerk_cookies)
         logging.debug(f"Modified request for Clerk: {request}")  
     try:
         # Authenticate the request with Clerk
-        request_state = clerk_client.authenticate_request(
+        _request_state = clerk_client.authenticate_request(
             request,
             AuthenticateRequestOptions(
                 authorized_parties=origins
             )
         )
-        logger.debug(f"Authentication state: {request_state.is_authenticated}, Payload: {request_state.payload}")
-        session['clerk_state'] = request_state   
+        logger.debug(f"Authentication state: {_request_state.is_authenticated}, Payload: {_request_state.payload}")
+        session['clerk_state'] = _request_state
+        _sub_stat = get_user_subscription(_request_state.payload['sub']) if _request_state.payload else None
+        logging.debug(f" Subscription status is {_sub_stat}")
+        session['subs'] = _sub_stat
     except Exception as e:
         logger.error(f"Error during Clerk authentication: {e}")
 
@@ -86,11 +102,13 @@ def index():
     Provides the Clerk publishable key for client-side authentication.
     """
     _cs = session.get('clerk_state')
-    logger.debug(f"Rendering plans page with clerk state: {_cs}")
+    _pl = session.get('subs')
+    logger.debug(f"Rendering plans page with clerk state: {_cs} and plan {_pl}")
     return render_template('index.html',
                         clerk_publishable_key=os.getenv('CLERK_PUBLISHABLE_KEY'),
                         is_authenticated=_cs.status == AuthStatus.SIGNED_IN if _cs else False,
-                        clerk_state=_cs)
+                        clerk_state=_cs,
+                        clerk_plan=_pl)
 
 @app.route('/plans')
 def plans():
