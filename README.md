@@ -12,3 +12,4 @@ Sample code for the https://chronicler.tech site
 * [Work with XML in Ansible](./xml-documents-and-ansible)
 * [Validate TLS Ciphers](./tls-ciphers-check)
 * [OpenAI Platform Custom](./gpt4-node-snippet)
+* [Flask Application with Clerk](./flask-with-clerk)

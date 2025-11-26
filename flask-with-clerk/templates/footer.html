@@ -1,0 +1,36 @@
+    </main>
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 Flask with Clerk. All rights reserved.</p>
+        </div>
+    </footer>
+
+   
+<script>
+    window.addEventListener('load', async function () {
+        await Clerk.load()
+        loginDiv = document.getElementById('login-div')  
+        if (Clerk.isSignedIn) {
+            loginDiv.innerHTML = `<div id='user-button'></div>`;
+            Clerk.mountUserButton(document.getElementById('user-button'))
+        }    
+        // Show login button
+        loginDiv.style.display = 'block';
+
+            // Mount user profile on the profile page
+        const profileDiv = document.getElementById('user-profile')
+          // Display the mount results to avoid flash of unstyled content
+        if (Clerk.user && profileDiv) {
+                Clerk.mountUserProfile(profileDiv)
+            }
+        
+        // Mount pricing table on the  plans page
+        const pricingTableDiv = document.getElementById('user-plans')
+        if (pricingTableDiv) {
+            Clerk.mountPricingTable(pricingTableDiv)
+        }
+  })
+</script>
+
+</body>
+</html>

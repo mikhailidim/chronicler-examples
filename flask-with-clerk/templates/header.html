@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        {% block title %}
+            Flask with Clerk
+        {% endblock %}
+    </title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+</head>
+<body>
+    <!-- Initialize Clerk with your Clerk Publishable Key and Frontend API URL -->
+<script
+  async
+  crossorigin="anonymous"
+  data-clerk-publishable-key="{{ clerk_publishable_key }}"
+  src="https://natural-kid-22.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js"
+  type="text/javascript">
+</script>
+    <header>
+        <nav class="navbar">
+            <div class="nav-left">
+                <a href="/" class="nav-link {% if request.endpoint == 'index' %}active{% endif %}">Home</a>
+                <a href="/plans" class="nav-link {% if request.endpoint == 'plans' %}active{% endif %}">Plans</a>
+                <a href="/profile" class="nav-link {% if request.endpoint == 'profile' %}active{% endif %}">Profile</a>
+            </div>
+            <div class="nav-right" id="login-div" style="display: none;">
+                <button class="login-btn" onclick="Clerk.openSignIn()" id="login">
+                    <svg class="anonymous-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                    </svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+</body>
+</html>
