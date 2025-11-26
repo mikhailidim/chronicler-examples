@@ -1,0 +1,4 @@
+.venv
+.env
+.claude
+flask_session
